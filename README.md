@@ -61,7 +61,3 @@ The API will again return the existing list of blacklisted numbers:
 ## Tests
 End-to-end tests are found in tests/e2e_tests. 
 The run_tests.sh script will set the env before running all tests with pytest.
-
-## Further Improvement
-The current pagination implementation is not efficient as the whole Fibonacci sequence has to be calculated when retrieving a page.
-A better way is to create another table in the database to store the number requested and its results. When the user tries to retrieve another page, the API will fetch the results from database without recalculation.  

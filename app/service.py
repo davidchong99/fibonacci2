@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
 
 from app.database.models import Blacklist
-from app.database.utils import read_blacklist
+from app.database.utils import read_blacklist, read_result_from_db, save_result_to_db
 from app.dto import BlackListResponse, SequenceResponse, PagedResponse
 
 PAGE_SIZE = 100
@@ -19,7 +19,17 @@ def fibonacci(nterm: int) -> list:
 
 
 def get_fibonacci_sequence(nterm: int, session: Session) -> SequenceResponse:
+    # Retrieve saved results if available
+    saved_result = read_result_from_db(nterm, session)
+
+    if saved_result:
+        return SequenceResponse(sequence=saved_result)
+
+    # Perform calculation if there is no stored results
     result = fibonacci(nterm)
+
+    # Save results in db for future use
+    save_result_to_db(nterm, result, session)
 
     # Read the current black list from Postgres
     current_blacklist = read_blacklist(session)
@@ -33,7 +43,14 @@ def get_fibonacci_sequence(nterm: int, session: Session) -> SequenceResponse:
 def get_paged_fibonacci_sequence(
     nterm: int, session: Session, page_number: int = 0
 ) -> PagedResponse:
-    result = fibonacci(nterm)
+    # Retrieve saved results if available
+    saved_result = read_result_from_db(nterm, session)
+
+    if saved_result:
+        result = saved_result
+    else:
+        result = fibonacci(nterm)
+        save_result_to_db(nterm, result, session)
 
     # Read the current black list from Postgres
     current_blacklist = read_blacklist(session)
