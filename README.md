@@ -1,5 +1,7 @@
 # Fibonacci Sequence API
-This API will return the Fibonacci sequence starting from 0 up to the number provided by the users.
+This API will return the Fibonacci sequence starting from 0 up to the number provided by the users. 
+The catch is the numbers in a Fibonacci sequence can be extremely large that they exceed the maximum number allowed in the database or operating system.
+For postgres database, I choose the type numeric to store largest possible number allowed in postgres.
 
 Its implementation details are as follows:
 
