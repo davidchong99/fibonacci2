@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query, status, HTTPException
+from pydantic import PositiveInt
 from sqlmodel import Session
 
 from app.database.database import get_session
@@ -14,14 +15,9 @@ router = APIRouter()
     response_model=SequenceResponse,
 )
 def get_fibonacci_sequence(
-    nterm: int,
+    nterm: PositiveInt,
     session: Session = Depends(get_session),
 ) -> SequenceResponse:
-    if nterm < 0:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Negative numbers are not allowed",
-        )
     return service.get_fibonacci_sequence(nterm, session)
 
 
@@ -30,15 +26,10 @@ def get_fibonacci_sequence(
     response_model=PagedResponse,
 )
 def get_paged_fibonacci_sequence(
-    nterm: int,
+    nterm: PositiveInt,
     page_number: int = Query(ge=0, description="Page number starting from 0"),
     session: Session = Depends(get_session),
 ):
-    if nterm < 0:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Negative numbers are not allowed",
-        )
     try:
         return service.get_paged_fibonacci_sequence(nterm, session, page_number)
     except ValueError as e:
@@ -71,15 +62,9 @@ def add_blacklist(
     status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_blacklist(
-    blacklist: int,
+    blacklist: PositiveInt,
     session: Session = Depends(get_session),
 ):
-    if blacklist < 0:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Negative numbers are not allowed",
-        )
-
     try:
         old_blacklist = Blacklist(black_list=blacklist)
         service.delete_blacklist(old_blacklist, session)

@@ -11,7 +11,7 @@ def test_get_fibonacci():
 
 def test_get_fibonacci_negative_number():
     response = requests.get(f"{BASE_URL}/-1")
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 
 def test_get_fibonacci_invalid_input():
