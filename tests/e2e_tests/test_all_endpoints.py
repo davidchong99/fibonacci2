@@ -9,6 +9,16 @@ def test_get_fibonacci():
     assert response.json() == {"sequence": [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]}
 
 
+def test_get_fibonacci_negative_number():
+    response = requests.get(f"{BASE_URL}/-1")
+    assert response.status_code == 400
+
+
+def test_get_fibonacci_invalid_input():
+    response = requests.get(f"{BASE_URL}/abc")
+    assert response.status_code == 422
+
+
 def test_get_fibonaaci_paged():
     response_0 = requests.get(f"{BASE_URL}/1000000000000000000000/paged?page_number=0")
     assert response_0.status_code == 200
