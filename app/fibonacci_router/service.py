@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
 
 from app.database.models import Blacklist
-from app.database.utils import read_blacklist, read_result_from_db, save_result_to_db
+from app.database.utils import read_blacklist_from_db, read_result_from_db, save_result_to_db
 from app.fibonacci_router.dto import BlackListResponse, SequenceResponse, PagedResponse
 
 PAGE_SIZE = 100
@@ -32,7 +32,7 @@ def get_fibonacci_sequence(nterm: int, session: Session) -> SequenceResponse:
     save_result_to_db(nterm, result, session)
 
     # Read the current black list from Postgres
-    current_blacklist = read_blacklist(session)
+    current_blacklist = read_blacklist_from_db(session)
 
     # Filter the blacklisted number from the sequence
     result = [x for x in result if x not in current_blacklist]
@@ -53,7 +53,7 @@ def get_paged_fibonacci_sequence(
         save_result_to_db(nterm, result, session)
 
     # Read the current black list from Postgres
-    current_blacklist = read_blacklist(session)
+    current_blacklist = read_blacklist_from_db(session)
 
     # Filter the blacklisted number from the sequence
     result = [x for x in result if x not in current_blacklist]
@@ -80,7 +80,7 @@ def get_paged_fibonacci_sequence(
 
 def add_blacklist(to_be_added: Blacklist, session: Session) -> BlackListResponse:
     # Read the current black list from Postgres
-    current_blacklist = read_blacklist(session)
+    current_blacklist = read_blacklist_from_db(session)
 
     # Add new blacklist if it does not exist in the current blacklist
     if to_be_added.black_list not in current_blacklist:
@@ -96,7 +96,7 @@ def add_blacklist(to_be_added: Blacklist, session: Session) -> BlackListResponse
 
 def delete_blacklist(to_be_deleted: Blacklist, session: Session) -> BlackListResponse:
     # Read the current black list from Postgres
-    current_blacklist = read_blacklist(session)
+    current_blacklist = read_blacklist_from_db(session)
 
     # Delete the blacklist if it exists in the current blacklist
     if to_be_deleted.black_list in current_blacklist:
