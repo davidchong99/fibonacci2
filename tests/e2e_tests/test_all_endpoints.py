@@ -155,10 +155,16 @@ def test_add_blacklist():
     assert response.json() == {"blacklists": [21]}
 
 
+def test_add_negative_blacklist():
+    payload = {"black_list": -21}
+    response = requests.post(f"{BASE_URL}/blacklist", json=payload)
+    assert response.status_code == 400
+
+
 def test_add_invalid_blacklist():
     payload = {"black_list": "apple"}
     response = requests.post(f"{BASE_URL}/blacklist", json=payload)
-    assert response.status_code == 422
+    assert response.status_code == 400
 
 
 def test_add_blacklist_that_already_exists():
