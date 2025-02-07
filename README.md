@@ -55,10 +55,22 @@ The API will return the existing list of blacklisted numbers:
 ```console
 curl -X DELETE localhost:8080/blacklist/21 -H 'Content-Type: application/json'
 ```
-The API will again return the existing list of blacklisted numbers:
-```console
-{"blacklists":[]}
-```
+The API will return status 204 without any response object
+
+## Architecture
+All source codes are in /app directory.
+
+main.py serves as the main entry point of this API.
+
+_app_lifespan function is run before the start of the API to create the tables defined in /app/database/models.py
+
+There is only one router defined in /app/fibonacci_router/fibonacci.py where all the endpoints of this router is defined.
+
+The business logic of the endpoints is defined in /app/fibonacci_router/service.py
+
+The data transfer objects are defined in /app/fibonacci_router/dto.py
+
+All database manager related codes are found in /app/database
 
 ## Tests
 End-to-end tests are found in tests/e2e_tests. 
