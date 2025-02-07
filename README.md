@@ -74,4 +74,5 @@ All database manager related codes are found in /app/database
 
 ## Tests
 End-to-end tests are found in tests/e2e_tests. 
+
 The run_tests.sh script will set the env before running all tests with pytest.
