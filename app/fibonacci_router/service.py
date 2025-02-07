@@ -1,7 +1,11 @@
 from sqlmodel import Session, select
 
 from app.database.models import Blacklist
-from app.database.utils import read_blacklist_from_db, read_result_from_db, save_result_to_db
+from app.database.utils import (
+    read_blacklist_from_db,
+    read_result_from_db,
+    save_result_to_db,
+)
 from app.fibonacci_router.dto import BlackListResponse, SequenceResponse, PagedResponse
 
 PAGE_SIZE = 100
