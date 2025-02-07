@@ -11,10 +11,8 @@ class Blacklist(SQLModel, table=True):
         default=None, sa_column=Column(Numeric, primary_key=True, autoincrement=False)
     )
 
-    @field_validator("black_list", mode="after")
+    @field_validator("black_list")
     def validate_blacklist_is_positive(cls, value: int) -> int:
-        if not isinstance(value, int):
-            raise ValueError("black_list must be an integer")
         if value <= 0:
             raise ValueError("black_list must be a positive number")
         return value

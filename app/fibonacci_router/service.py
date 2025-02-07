@@ -112,8 +112,5 @@ def delete_blacklist(to_be_deleted: Blacklist, session: Session) -> BlackListRes
 
         session.delete(blacklist)
         session.commit()
-        current_blacklist.remove(blacklist.black_list)
     else:
         raise ValueError("Blacklist does not exist")
-
-    return BlackListResponse(blacklists=current_blacklist)

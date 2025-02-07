@@ -68,15 +68,21 @@ def add_blacklist(
 
 @router.delete(
     "/blacklist/{blacklist}",
-    response_model=BlackListResponse,
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_blacklist(
     blacklist: int,
     session: Session = Depends(get_session),
 ):
-    old_blacklist = Blacklist(black_list=blacklist)
+    if blacklist < 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Negative numbers are not allowed",
+        )
+
     try:
-        return service.delete_blacklist(old_blacklist, session)
+        old_blacklist = Blacklist(black_list=blacklist)
+        service.delete_blacklist(old_blacklist, session)
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
