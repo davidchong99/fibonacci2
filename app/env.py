@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 
 
+# These variables will be overridden if they exist in OS env
 class Settings(BaseSettings):
     # Environment Settings
     debug: bool = False

@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+# Use Pydantic to validate inputs and API response
+
 
 class SequenceResponse(BaseModel):
     sequence: list[int]

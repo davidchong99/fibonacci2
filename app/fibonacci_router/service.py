@@ -2,7 +2,7 @@ from sqlmodel import Session, select
 
 from app.database.models import Blacklist
 from app.database.utils import read_blacklist, read_result_from_db, save_result_to_db
-from app.dto import BlackListResponse, SequenceResponse, PagedResponse
+from app.fibonacci_router.dto import BlackListResponse, SequenceResponse, PagedResponse
 
 PAGE_SIZE = 100
 
